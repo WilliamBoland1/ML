@@ -30,7 +30,7 @@ def polynomial_regression(df, degree=2):
     y_pred = model.predict(X_test_poly_scaled)
 
     # Evaluation (MSE)
-    mse = i.root_mean_squared_error(y_test, y_pred)
+    mse = i.mean_squared_error(y_test, y_pred)
 
     # print(f"Polynomial degree: {degree}")
     # print(f"MSE: {mse:.3f}")
