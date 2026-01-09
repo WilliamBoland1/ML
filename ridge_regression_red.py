@@ -35,9 +35,9 @@ def ridge_regression(df):
     r2 = i.r2_score(y_test, y_pred)                    # R-squared score
 
     # Print evaluation results
-    print(f"RMSE: {rmse:.3f}")
-    print(f"MAE: {mae:.3f}")
-    print(f"R²: {r2:.3f}")
+    # print(f"RMSE: {rmse:.3f}")
+    # print(f"MAE: {mae:.3f}")
+    # print(f"R²: {r2:.3f}")
 
     # Define a range of alpha values to test for regularization strength
     alphas = [0.01, 0.1, 1, 10, 100]
@@ -61,7 +61,7 @@ def ridge_regression(df):
     grid.fit(X_train_scaled, y_train)
 
     # Print the best alpha value found by cross-validation
-    print("Best alpha:", grid.best_params_["alpha"])
+    #print("Best alpha:", grid.best_params_["alpha"])
 
     # Retrieve the best Ridge model from the grid search
     best_ridge = grid.best_estimator_
