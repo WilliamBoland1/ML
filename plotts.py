@@ -102,9 +102,8 @@ def plot_pred_vs_true(results, title="Predicted vs True"):
         
         avg_list = [avg_list_sum_list[i] / avg_count_list[i] if avg_count_list[i] > 0 else 0 for i in range(10)]
         
-        for i in range(len(avg_list)):
-            if avg_list[i] == 0:
-                del avg_list[i]
+        avg_list = [v for v in avg_list if v != 0]
+
 
         i.plt.plot(plot_list, avg_list, marker="o", linestyle="-", label=f"{name} Avg per level")
     

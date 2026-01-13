@@ -28,6 +28,11 @@ def ridge_regression(df):
 
     # Predict target values for the test set
     y_pred = ridge.predict(X_test_scaled)
+    for index in range(len(y_pred)):
+        if y_pred[index] < 1:
+            y_pred[index] = 1
+        elif y_pred[index] > 10:
+            y_pred[index]  = 10
 
     # Compute evaluation metrics to assess model performance
     rmse = i.root_mean_squared_error(y_test, y_pred)  # Root Mean Squared Error
@@ -68,6 +73,11 @@ def ridge_regression(df):
 
     # Predict again using the optimized Ridge model
     y_pred = best_ridge.predict(X_test_scaled)
+    for index in range(len(y_pred)):
+        if y_pred[index] < 1:
+            y_pred[index] = 1
+        elif y_pred[index] > 10:
+            y_pred[index]  = 10
 
     # Return the scaled test features and corresponding predictions
     return y_test, y_pred
