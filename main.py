@@ -9,7 +9,7 @@ import importingfile as i
 
 def main():
     # Load data
-    df = i.pd.read_csv("data/winequality-red.csv", sep=";")  # or white
+    df = i.pd.read_csv("data/winequality-white.csv", sep=";")  # or white
     y_true = df["quality"]  # not used directly, but fine to keep
 
     # ----------------------- Models -----------------------------

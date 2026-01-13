@@ -28,6 +28,11 @@ def polynomial_regression(df, degree=2):
 
     # Predict
     y_pred = model.predict(X_test_poly_scaled)
+    for index in range(len(y_pred)):
+        if y_pred[index] < 1:
+            y_pred[index] = 1
+        elif y_pred[index] > 10:
+            y_pred[index]  = 10
 
     # Evaluation (MSE)
     mse = i.mean_squared_error(y_test, y_pred)

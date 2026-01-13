@@ -38,6 +38,11 @@ def lasso_regression(df):
 
     # Predict on test set
     y_pred = best_lasso.predict(X_test_scaled)
+    for index in range(len(y_pred)):
+        if y_pred[index] < 1:
+            y_pred[index] = 1
+        elif y_pred[index] > 10:
+            y_pred[index]  = 10
 
     # Evaluation metrics
     mse = i.mean_squared_error(y_test, y_pred)

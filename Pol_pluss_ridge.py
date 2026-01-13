@@ -67,6 +67,12 @@ def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100))
     ridge_best.fit(X_train_poly_scaled, y_train)
     y_pred = ridge_best.predict(X_test_poly_scaled)
 
+    for index in range(len(y_pred)):
+        if y_pred[index] < 1:
+            y_pred[index] = 1
+        elif y_pred[index] > 10:
+            y_pred[index]  = 10
+
     # Metrics
     mse = i.mean_squared_error(y_test, y_pred)
     rmse = i.root_mean_squared_error(y_test, y_pred)
