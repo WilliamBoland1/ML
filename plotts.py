@@ -82,14 +82,38 @@ def plot_pred_vs_true(results, title="Predicted vs True"):
     y_all = i.np.concatenate([_to_numpy(r[1]) for r in results])
     y_min, y_max = y_all.min(), y_all.max()
 
+    
+
     for name, y_test, y_pred in results:
+        plot_list = list(range(int(y_min), int(y_max)+1))
         y_t = _to_numpy(y_test)
         y_p = _to_numpy(y_pred)
         i.plt.scatter(y_t, y_p, alpha=0.35, label=name)
 
+        # Calculate average predicted value for each true quality level
+        avg_list_sum_list = [0] * 10
+        avg_count_list = [0] * 10
+        
+        for one in range(len(y_t)):
+            index = y_t[one]-1
+            avg_list_sum_list[index] += y_p[one]
+            avg_count_list[index] += 1
+        
+        
+        avg_list = [avg_list_sum_list[i] / avg_count_list[i] if avg_count_list[i] > 0 else 0 for i in range(10)]
+        
+        for i in range(len(avg_list)):
+            if avg_list[i] == 0:
+                del avg_list[i]
+
+        i.plt.plot(plot_list, avg_list, marker="o", linestyle="-", label=f"{name} Avg per level")
+    
+    
     # Perfect prediction line
     i.plt.plot([y_min, y_max], [y_min, y_max], linestyle="--", label="Perfect")
-
+    
+    i.plt.grid(True)
+    
     i.plt.xlabel("True quality")
     i.plt.ylabel("Predicted quality")
     i.plt.title(title)
