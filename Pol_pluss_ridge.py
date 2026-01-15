@@ -1,4 +1,4 @@
-import importingfile as i
+import utils.importingfile as i
 
 def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100)):
     # ----------------------------
@@ -72,19 +72,6 @@ def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100))
             y_pred[index] = 1
         elif y_pred[index] > 10:
             y_pred[index]  = 10
-
-    # Metrics
-    mse = i.mean_squared_error(y_test, y_pred)
-    rmse = i.root_mean_squared_error(y_test, y_pred)
-    mae = i.mean_absolute_error(y_test, y_pred)
-    r2 = i.r2_score(y_test, y_pred)
-
-    print("Best params:", best_params)
-    print(f"CV MSE (best): {best_cv_mse:.4f}")
-    print(f"Test MSE: {mse:.4f}")
-    print(f"Test RMSE: {rmse:.4f}")
-    print(f"Test MAE: {mae:.4f}")
-    print(f"Test R²: {r2:.4f}")
 
     # Return test labels and predictions for plotting
     return y_test, y_pred, best_params

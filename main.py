@@ -1,25 +1,26 @@
-import ridge_regression_red as rrr
+import ridge_regression as rr
 import Polinomial_regression_MSE as prm
 import Pol_pluss_ridge as ppr
 import lasso as l
 import plotts as p
+import random_forest_basic as rfb
+import evaluation as ev
 
-import importingfile as i
+import utils.importingfile as i
 
 
 def main():
     # Load data
-    df = i.pd.read_csv("data/winequality-white.csv", sep=";")  # or white
+    df = i.pd.read_csv("data/winequality-red.csv", sep=";")  # or white
     y_true = df["quality"]  # not used directly, but fine to keep
 
     # ----------------------- Models -----------------------------
 
     # Ridge
-    y_test_rrr, y_pred_rrr = rrr.ridge_regression(df)
+    y_test_rrr, y_pred_rrr = rr.ridge_regression(df)
 
     # Polynomial regression
-    degree = 2
-    X_test_poly_scaled, y_test_prm, y_pred_prm = prm.polynomial_regression(df, degree)
+    X_test_poly_scaled, y_test_prm, y_pred_prm = prm.polynomial_regression(df, degree = 2)
 
     # Polynomial + Ridge
     y_test_ppr, y_pred_ppr, best_params_ppr = ppr.poly_ridge_regression(df)
@@ -27,8 +28,20 @@ def main():
     # Lasso
     y_test_lasso, y_pred_lasso, lasso_model = l.lasso_regression(df)
 
-    # ----------------------- Residuals -----------------------------
+    # Random Forest
+    rf_results = rfb.random_forest_classifier(df)
 
+    # ----------------------- Evaluation & Metrics -----------------------------
+    models_to_evaluate = {
+        "Ridge": (y_test_rrr, y_pred_rrr),
+        "Polynomial": (y_test_prm, y_pred_prm),
+        "Poly+Ridge": (y_test_ppr, y_pred_ppr),
+        "Lasso": (y_test_lasso, y_pred_lasso),
+    }
+    
+    all_metrics = ev.evaluate_all_models(models_to_evaluate)
+
+    # ----------------------- Residuals -----------------------------
     residuals_rrr = i.np.array(y_test_rrr) - i.np.array(y_pred_rrr)
     residuals_prm = i.np.array(y_test_prm) - i.np.array(y_pred_prm)
     residuals_ppr = i.np.array(y_test_ppr) - i.np.array(y_pred_ppr)
@@ -45,13 +58,13 @@ def main():
 
     # ----------------------- Plotting: Predicted vs True -----------------------------
 
-    p.plot_pred_vs_true([
-        ("Ridge", y_test_rrr, y_pred_rrr),
-        ("Poly", y_test_prm, y_pred_prm),
-        ("Poly+Ridge", y_test_ppr, y_pred_ppr),
-        ("Lasso", y_test_lasso, y_pred_lasso),
-    ])
-    i.plt.show()
+    # p.plot_pred_vs_true([
+    #     ("Ridge", y_test_rrr, y_pred_rrr),
+    #     ("Poly", y_test_prm, y_pred_prm),
+    #     ("Poly+Ridge", y_test_ppr, y_pred_ppr),
+    #     ("Lasso", y_test_lasso, y_pred_lasso),
+    # ])
+    # i.plt.show()
 
     # # ----------------------- Plotting: Residual histogram -----------------------------
 

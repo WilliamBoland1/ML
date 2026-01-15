@@ -50,7 +50,7 @@ def random_forest_classifier(
 
     # Stratified k-fold cross-validation
     cv = StratifiedKFold(
-        n_splits=5,
+        n_splits=4,
         shuffle=True,
         random_state=random_state
     )
@@ -100,11 +100,11 @@ def random_forest_classifier(
         n_jobs=-1
     )
 
-    # Plot results if enabled
-    if do_plot:
-        _plot_confusion_matrix(cm, sorted(y.unique()))
-        _plot_feature_importances(best, X.columns)
-        _plot_permutation_importance(r.importances_mean, X.columns)
+    # # Plot results if enabled
+    # if do_plot:
+    #     _plot_confusion_matrix(cm, sorted(y.unique()))
+    #     _plot_feature_importances(best, X.columns)
+    #     _plot_permutation_importance(r.importances_mean, X.columns)
 
     # Return all relevant outputs
     return {
@@ -182,3 +182,31 @@ if __name__ == "__main__":
     print(f"Accuracy: {res['accuracy']:.4f}")
     print(f"Balanced accuracy: {res['balanced_accuracy']:.4f}")
     print(res["report"])
+
+# if __name__ == "__main__":
+#     # Load data
+#     df = pd.read_csv("data/winequality-red.csv", sep=";")
+
+#     seeds = range(10)  # 0–9
+#     results = []
+
+#     for seed in seeds:
+#         print(f"Running with seed {seed}...")
+#         res = random_forest_classifier(
+#             df,
+#             random_state=seed,
+#             do_plot=False  # disable plots during benchmarking
+#         )
+
+#         results.append({
+#             "seed": seed,
+#             "accuracy": res["accuracy"],
+#             "balanced_accuracy": res["balanced_accuracy"],
+#         })
+
+#     # Convert to DataFrame for analysis
+#     results_df = pd.DataFrame(results)
+
+#     print(results_df)
+#     print("\nSummary statistics:")
+#     print(results_df[["accuracy", "balanced_accuracy"]].describe())

@@ -1,4 +1,4 @@
-import importingfile as i
+import utils.importingfile as i
 
 df = i.pd.read_csv("data/winequality-red.csv", sep=";")  # or white
 

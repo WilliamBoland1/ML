@@ -1,4 +1,4 @@
-import importingfile as i
+import utils.importingfile as i
 
 def lasso_regression(df):
     # Separate features (X) and target variable (y)
@@ -43,17 +43,5 @@ def lasso_regression(df):
             y_pred[index] = 1
         elif y_pred[index] > 10:
             y_pred[index]  = 10
-
-    # Evaluation metrics
-    mse = i.mean_squared_error(y_test, y_pred)
-    rmse = i.root_mean_squared_error(y_test, y_pred)
-    mae = i.mean_absolute_error(y_test, y_pred)
-    r2 = i.r2_score(y_test, y_pred)
-
-    print("Best alpha:", grid.best_params_["alpha"])
-    print(f"MSE: {mse:.3f}")
-    print(f"RMSE: {rmse:.3f}")
-    print(f"MAE: {mae:.3f}")
-    print(f"R²: {r2:.3f}")
 
     return y_test, y_pred, best_lasso

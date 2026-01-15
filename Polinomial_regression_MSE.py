@@ -1,4 +1,4 @@
-import importingfile as i
+import utils.importingfile as i
 
 def polynomial_regression(df, degree=2):
     # Split features and target
@@ -34,10 +34,5 @@ def polynomial_regression(df, degree=2):
         elif y_pred[index] > 10:
             y_pred[index]  = 10
 
-    # Evaluation (MSE)
-    mse = i.mean_squared_error(y_test, y_pred)
-
-    # print(f"Polynomial degree: {degree}")
-    # print(f"MSE: {mse:.3f}")
 
     return X_test_poly_scaled, y_test, y_pred

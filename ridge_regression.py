@@ -1,4 +1,4 @@
-import importingfile as i  # Import helper module that wraps sklearn utilities
+import utils.importingfile as i  # Import helper module that wraps sklearn utilities
 
 def ridge_regression(df):
     # Separate features (X) and target variable (y)
