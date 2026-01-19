@@ -166,7 +166,7 @@ def _plot_permutation_importance(importances, feature_names):
 # =========================
 
 if __name__ == "__main__":
-    df = pd.read_csv("data/winequality-red.csv", sep=";")
+    df = pd.read_csv("../data/winequality-red.csv", sep=";")
     res = catboost_regression(df, do_plot=True)
 
     print(f"MAE:  {res['mae']:.4f}")
