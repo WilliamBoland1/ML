@@ -95,7 +95,7 @@ def plot_pred_vs_true(results, title="Predicted vs True"):
         avg_count_list = [0] * 10
         
         for one in range(len(y_t)):
-            index = y_t[one]-1
+            index = int(y_t[one] - 1)
             avg_list_sum_list[index] += y_p[one]
             avg_count_list[index] += 1
         

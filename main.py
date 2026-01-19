@@ -53,63 +53,73 @@ def main():
     residuals_prm = i.np.array(y_test_prm) - i.np.array(y_pred_prm)
     residuals_ppr = i.np.array(y_test_ppr) - i.np.array(y_pred_ppr)
     residuals_l = i.np.array(y_test_lasso) - i.np.array(y_pred_lasso)
+    residuals_rf = i.np.array(rf_results["y_test"]) - i.np.array(rf_results["y_pred"])
+    residuals_gb = i.np.array(gb_results["y_test"]) - i.np.array(gb_results["y_pred"])
 
-    # # ----------------------- Plotting: Residual scatter -----------------------------
+    # ----------------------- Plotting: Residual scatter -----------------------------
 
-    # # NOTE: x-axis should be predictions for "Residuals vs Predictions"
-    # p.plot_residual(residuals_rrr, y_pred_rrr, "Ridge Regression")
-    # p.plot_residual(residuals_prm, y_pred_prm, "Polinomial Regression")
-    # p.plot_residual(residuals_ppr, y_pred_ppr, "Polinomial + Ridge Regression")
-    # p.plot_residual(residuals_l, y_pred_lasso, "Lasso Regression")
-    # i.plt.show()
+    # NOTE: x-axis should be predictions for "Residuals vs Predictions"
+    p.plot_residual(residuals_rrr, y_pred_rrr, "Ridge Regression")
+    p.plot_residual(residuals_prm, y_pred_prm, "Polinomial Regression")
+    p.plot_residual(residuals_ppr, y_pred_ppr, "Polinomial + Ridge Regression")
+    p.plot_residual(residuals_l, y_pred_lasso, "Lasso Regression")
+    p.plot_residual(residuals_rf, rf_results["y_pred"], "Random Forest")
+    p.plot_residual(residuals_gb, gb_results["y_pred"], "CatBoost")
+    i.plt.show()
 
-    # ----------------------- Plotting: Predicted vs True -----------------------------
+    #----------------------- Plotting: Predicted vs True -----------------------------
 
-    # p.plot_pred_vs_true([
-    #     ("Ridge", y_test_rrr, y_pred_rrr),
-    #     ("Poly", y_test_prm, y_pred_prm),
-    #     ("Poly+Ridge", y_test_ppr, y_pred_ppr),
-    #     ("Lasso", y_test_lasso, y_pred_lasso),
-    # ])
-    # i.plt.show()
+    p.plot_pred_vs_true([
+        ("Ridge", y_test_rrr, y_pred_rrr),
+        ("Poly", y_test_prm, y_pred_prm),
+        ("Poly+Ridge", y_test_ppr, y_pred_ppr),
+        ("Lasso", y_test_lasso, y_pred_lasso),
+        ("Random Forest", rf_results["y_test"], rf_results["y_pred"]),
+        ("CatBoost", gb_results["y_test"], gb_results["y_pred"]),
+    ])
+    i.plt.show()
 
-    # # ----------------------- Plotting: Residual histogram -----------------------------
+    # ----------------------- Plotting: Residual histogram -----------------------------
 
-    # p.plot_residual_hist([
-    #     ("Ridge", y_test_rrr, y_pred_rrr),
-    #     ("Poly", y_test_prm, y_pred_prm),
-    #     ("Poly+Ridge", y_test_ppr, y_pred_ppr),
-    #     ("Lasso", y_test_lasso, y_pred_lasso),
-    # ])
-    # i.plt.show()
+    p.plot_residual_hist([
+        ("Ridge", y_test_rrr, y_pred_rrr),
+        ("Poly", y_test_prm, y_pred_prm),
+        ("Poly+Ridge", y_test_ppr, y_pred_ppr),
+        ("Lasso", y_test_lasso, y_pred_lasso),
+        ("Random Forest", rf_results["y_test"], rf_results["y_pred"]),
+        ("CatBoost", gb_results["y_test"], gb_results["y_pred"]),
+    ])
+    i.plt.show()
 
-    # # ----------------------- Plotting: MAE by quality level -----------------------------
+    # ----------------------- Plotting: MAE by quality level -----------------------------
 
-    # p.plot_mae_by_quality([
-    #     ("Ridge", y_test_rrr, y_pred_rrr),
-    #     ("Poly", y_test_prm, y_pred_prm),
-    #     ("Poly+Ridge", y_test_ppr, y_pred_ppr),
-    #     ("Lasso", y_test_lasso, y_pred_lasso),
-    # ])
-    # i.plt.show()
+    p.plot_mae_by_quality([
+        ("Ridge", y_test_rrr, y_pred_rrr),
+        ("Poly", y_test_prm, y_pred_prm),
+        ("Poly+Ridge", y_test_ppr, y_pred_ppr),
+        ("Lasso", y_test_lasso, y_pred_lasso),
+        ("Random Forest", rf_results["y_test"], rf_results["y_pred"]),
+        ("CatBoost", gb_results["y_test"], gb_results["y_pred"]),
+    ])
+    i.plt.show()
 
-    # # ----------------------- Plotting: Coefficients -----------------------------
+    # ----------------------- Plotting: Coefficients -----------------------------
 
-    # feature_names = df.drop("quality", axis=1).columns.tolist()
+    feature_names = df.drop("quality", axis=1).columns.tolist()
 
-    # # Lasso coefficients (you DO have lasso_model)
-    # p.plot_top_coefficients(lasso_model, feature_names, title="Lasso: Top coefficients")
+    # Lasso coefficients (you DO have lasso_model)
+    p.plot_top_coefficients(lasso_model, feature_names, title="Lasso: Top coefficients")
 
-    # # Ridge coefficients:
-    # # You currently do NOT have the ridge model object returned from rrr.ridge_regression(df).
-    # # If you modify ridge_regression to also return the trained model (best_ridge),
-    # # then you can plot it here too.
-    # #
-    # # Example (if your ridge function returns: y_test, y_pred, ridge_model):
-    # # y_test_rrr, y_pred_rrr, ridge_model = rrr.ridge_regression(df)
-    # # p.plot_top_coefficients(ridge_model, feature_names, title="Ridge: Top coefficients")
-    # #
-    # i.plt.show()
+    # Ridge coefficients:
+    # You currently do NOT have the ridge model object returned from rrr.ridge_regression(df).
+    # If you modify ridge_regression to also return the trained model (best_ridge),
+    # then you can plot it here too.
+    #
+    # Example (if your ridge function returns: y_test, y_pred, ridge_model):
+    # y_test_rrr, y_pred_rrr, ridge_model = rrr.ridge_regression(df)
+    # p.plot_top_coefficients(ridge_model, feature_names, title="Ridge: Top coefficients")
+    #
+    i.plt.show()
 
 
 if __name__ == "__main__":
