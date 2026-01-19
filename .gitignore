@@ -11,7 +11,6 @@ datasets/
 *.h5
 
 # Models
-models/
 *.pt
 *.pth
 catboost_info/
