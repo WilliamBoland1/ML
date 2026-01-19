@@ -1,6 +1,6 @@
 import utils.importingfile as i
 
-def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100)):
+def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100), random_state=42):
     # ----------------------------
     # 1) Split features and target
     # ----------------------------
@@ -8,7 +8,7 @@ def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100))
     y = df["quality"]
 
     X_train, X_test, y_train, y_test = i.train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=random_state
     )
 
     # ----------------------------
@@ -39,7 +39,7 @@ def poly_ridge_regression(df, degrees=(1, 2, 3), alphas=(0.01, 0.1, 1, 10, 100))
         grid = i.GridSearchCV(
             ridge,
             param_grid,
-            cv=5,
+            cv=i.KFold(n_splits=5, shuffle=True, random_state=random_state),
             scoring="neg_mean_squared_error"
         )
 

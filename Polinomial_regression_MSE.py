@@ -1,13 +1,13 @@
 import utils.importingfile as i
 
-def polynomial_regression(df, degree=2):
+def polynomial_regression(df, degree=2, random_state=42):
     # Split features and target
     X = df.drop("quality", axis=1)
     y = df["quality"]
 
     # Train / test split
     X_train, X_test, y_train, y_test = i.train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=random_state
     )
 
     # Create polynomial features

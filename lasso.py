@@ -1,13 +1,13 @@
 import utils.importingfile as i
 
-def lasso_regression(df):
+def lasso_regression(df, random_state=42):
     # Separate features (X) and target variable (y)
     X = df.drop("quality", axis=1)
     y = df["quality"]
 
     # Train / test split
     X_train, X_test, y_train, y_test = i.train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=random_state
     )
 
     # Standardize features (required for Lasso)
@@ -19,7 +19,7 @@ def lasso_regression(df):
     alphas = [0.001, 0.01, 0.1, 1, 10]
 
     # Initialize Lasso model
-    lasso = i.Lasso(max_iter=10000)
+    lasso = i.Lasso(max_iter=10000, random_state=random_state)
 
     # Grid search for optimal alpha
     param_grid = {"alpha": alphas}
@@ -27,7 +27,7 @@ def lasso_regression(df):
     grid = i.GridSearchCV(
         lasso,
         param_grid,
-        cv=5,
+        cv=i.KFold(n_splits=5, shuffle=True, random_state=random_state),
         scoring="neg_mean_squared_error"
     )
 

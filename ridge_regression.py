@@ -1,6 +1,6 @@
 import utils.importingfile as i  # Import helper module that wraps sklearn utilities
 
-def ridge_regression(df):
+def ridge_regression(df, random_state=42):
     # Separate features (X) and target variable (y)
     X = df.drop("quality", axis=1)
     y = df["quality"]
@@ -8,7 +8,7 @@ def ridge_regression(df):
     # Split the dataset into training and test sets
     # 80% for training, 20% for testing
     X_train, X_test, y_train, y_test = i.train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=random_state
     )
 
     # Initialize a standard scaler to normalize features
@@ -58,7 +58,7 @@ def ridge_regression(df):
     grid = i.GridSearchCV(
         ridge,
         param_grid,
-        cv=5,
+        cv=i.KFold(n_splits=5, shuffle=True, random_state=random_state),
         scoring="neg_mean_squared_error"
     )
 
