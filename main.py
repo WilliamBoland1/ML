@@ -1,9 +1,11 @@
-import ridge_regression as rr
-import Polinomial_regression_MSE as prm
-import Pol_pluss_ridge as ppr
-import lasso as l
+import models.ridge_regression as rr
+import models.Polinomial_regression_MSE as prm
+import models.Pol_pluss_ridge as ppr
+import models.lasso as l
 import plotts as p
-import random_forest_basic as rfb
+import models.random_forest_regression as rfr
+import models.forest_gradient_boost as fgb
+
 import utils.evaluation as ev
 
 import utils.importingfile as i
@@ -29,7 +31,10 @@ def main():
     y_test_lasso, y_pred_lasso, lasso_model = l.lasso_regression(df)
 
     # Random Forest
-    rf_results = rfb.random_forest_classifier(df)
+    rf_results = rfr.random_forest_regressor(df, do_plot=False)
+
+    #Gradient boost
+    gb_results = fgb.catboost_regression(df, do_plot=False)
 
     # ----------------------- Evaluation & Metrics -----------------------------
     models_to_evaluate = {
@@ -37,6 +42,8 @@ def main():
         "Polynomial": (y_test_prm, y_pred_prm),
         "Poly+Ridge": (y_test_ppr, y_pred_ppr),
         "Lasso": (y_test_lasso, y_pred_lasso),
+        "Random Forest": (rf_results["y_test"], rf_results["y_pred"]),
+        "CatBoost": (gb_results["y_test"], gb_results["y_pred"]),
     }
     
     all_metrics = ev.evaluate_all_models(models_to_evaluate)
